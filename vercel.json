@@ -1,10 +1,15 @@
-{
-  "builds": [{
-    "src": "app.py",
-    "use": "@vercel/python"
-  }],
-  "routes": [{
-    "src": "/(.*)",
-    "dest": "app.py"
-  }]
-}
+// 修改 vercel.json 增加配置
+   {
+     "builds": [{
+       "src": "app.py",
+       "use": "@vercel/python",
+       "config": {
+         "maxLambdaSize": "15mb",
+         "includeFiles": ["static/**", "templates/**", "love.db"]
+       }
+     }],
+     "routes": [
+       { "src": "/static/(.*)", "dest": "/static/$1" },
+       { "src": "/(.*)", "dest": "app.py" }
+     ]
+   }
