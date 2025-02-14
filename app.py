@@ -1,3 +1,9 @@
+from flask import send_from_directory
+
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    return send_from_directory('static', filename)
+
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
