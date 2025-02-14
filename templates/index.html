@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>庞睿和熊鑫瑞的秘密花园</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); min-height: 100vh; }
+        .card { border-radius: 15px; transition: transform 0.3s; background: rgba(255,255,255,0.9); }
+        .card:hover { transform: translateY(-5px); }
+        .message-box { max-height: 60vh; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-danger">
+        <div class="container">
+            <a class="navbar-brand" href=" ">❤️ 庞睿和熊鑫瑞的秘密花园 ❤️</a >
+            退出
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <!-- 上传表单 -->
+        <div class="row mb-5 animate__animated animate__fadeIn">
+            <div class="col-md-6 mb-3">
+                <div class="card p-3 h-100">
+                    <h4>📝 写悄悄话</h4>
+                    <form method="POST">
+                        <input type="hidden" name="message" value="1">
+                        <div class="mb-3">
+                            <input type="text" name="author" class="form-control"
+                                   placeholder="你的昵称" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea name="content" class="form-control"
+                                      rows="3" placeholder="想说的话..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger">送出心意</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3 h-100">
+                    <h4>📸 上传照片</h4>
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <input type="text" name="author" class="form-control"
+                                   placeholder="你的昵称" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="file" name="file" class="form-control"
+                                   accept="image/*" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" name="caption" class="form-control"
+                                   placeholder="照片描述">
+                        </div>
+                        <button type="submit" class="btn btn-danger">上传回忆</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 显示内容 -->
+        <div class="row g-4">
+            <!-- 留言区 -->
+            <div class="col-lg-6">
+                <h3 class="text-white mb-3">💌 我们的悄悄话</h3>
+                <div class="message-box">
+                    {% for msg in messages %}
+                    <div class="card mb-3 hvr-grow">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ msg.author }}</h5>
+                            <p class="card-text">{{ msg.content }}</p >
+                            <small class="text-muted">{{ msg.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- 照片墙 -->
+            <div class="col-lg-6">
+                <h3 class="text-white mb-3">📷 我们的回忆</h3>
+                <div class="row g-3">
+                    {% for img in images %}
+                    <div class="col-md-6">
+                        <div class="card hvr-float">
+                            < img src="{{ url_for('static', filename='uploads/' + img.filename) }}"
+                                 class="card-img-top" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">{{ img.caption }}</p >
+                                <small class="text-muted">上传者：{{ img.uploader }}<br>
+                                {{ img.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
